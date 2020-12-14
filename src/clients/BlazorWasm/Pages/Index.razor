@@ -1,0 +1,35 @@
+﻿@page "/"
+@inject IAccessTokenProvider TokenProvider
+@attribute [Authorize]
+<AuthorizeView>
+    <Authorized>
+        <h2>
+            Hello @context.User.Identity.Name,
+            @context.User.FindFirst("role")
+            @context.User.IsInRole("admin")
+            toke: @accessToken.Value
+            here's the list of your claims:
+        </h2>
+        <ul>
+
+            <li>@accessToken.Expires.ToLocalTime()</li>
+            @foreach (var claim in context.User.Claims)
+            {
+                <li><b>@claim.Type</b>: @claim.Value</li>
+            }
+        </ul>
+    </Authorized>
+    <NotAuthorized>
+        <p>I'm sorry, I can't display anything until you log in</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+    AccessToken accessToken = new AccessToken();
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await TokenProvider.RequestAccessToken();
+        token.TryGetToken(out accessToken);
+    }
+}
+
