@@ -11,33 +11,38 @@ namespace IS4WithIdenity
     public static class Config
     {
         public static IEnumerable<IdentityResource> IdentityResources =>
-                 new IdentityResource[]
+                 new[]
                  {
-                new IdentityResources.Profile(),
+                new IdentityResources.OpenId(),
                 new IdentityResources.Phone(),
                 new IdentityResources.Email(),
                  new IdentityResource(
-           IdentityServerConstants.StandardScopes.OpenId,
-             new[] { "sub","role","email","location","phone_number" })
+           "profile",
+             new[] { "role","email","location","phone_number" })
                  };
 
         public static IEnumerable<ApiScope> ApiScopes =>
-            new ApiScope[]
+            new[]
             {
                  new ApiScope("weather.fullaccess")
             };
 
         public static IEnumerable<ApiResource> Apis =>
-                        new ApiResource[]
+                        new[]
                         {
-                             new ApiResource("weather", "weather API")
-                {
-                    Scopes = { "weather.fullaccess" }
-                }
+                new ApiResource
+            {
+                Name = "weather",
+                DisplayName = "weather API #1",
+                Description = "Allow the application to access weather API #1 on your behalf",
+                Scopes = new [] {"weather.fullaccess"},
+                ApiSecrets = new [] {new Secret("ScopeSecret".Sha256())},
+                UserClaims = new [] { "role", "email", "location", "phone_number" }
+            }
                         };
 
         public static IEnumerable<Client> Clients =>
-            new Client[]
+            new[]
             {
                 // m2m client credentials flow client
                 new Client

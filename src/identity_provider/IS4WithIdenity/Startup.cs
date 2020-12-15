@@ -3,11 +3,8 @@
 
 
 using IdentityServer4;
-using IdentityServer4.AspNetIdentity;
-using IdentityServer4.Services;
 using IS4WithIdenity.Data.Identity;
 using IS4WithIdenity.Models;
-using IS4WithIdenity.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -36,14 +33,15 @@ namespace IS4WithIdenity
             services.AddControllersWithViews();
             var authIdentityConnectionString = Configuration.GetConnectionString("AuthIdentity");
             var authIDPConnectionString = Configuration.GetConnectionString("AuthIDP");
-           // SeedIdentityData.EnsureSeedData(authIdentityConnectionString);
-           // SeedIDPData.EnsureSeedData(authIDPConnectionString);
-            services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
+           SeedIdentityData.EnsureSeedData(authIdentityConnectionString);
+            //SeedIDPData.EnsureSeedData(authIDPConnectionString);
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             services.AddDbContext<AppIdentityDbContext>(options =>
                 {
                     options.LogTo(tsql => Debug.Write(tsql));
-                    options.UseSqlServer(authIdentityConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+                    options.UseInMemoryDatabase("AuthIdentity");
+                    //options.UseSqlServer(authIdentityConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+
                     //,
                     //         b =>
                     //         {
@@ -96,7 +94,6 @@ namespace IS4WithIdenity
                  //    };
                  //    options.EnableTokenCleanup = true;
                  //})
-                 //.AddProfileService<IdentityWithAdditionalClaimsProfileService>()
                  .AddAspNetIdentity<ApplicationUser>();
 
             // not recommended for production - you need to store your key material somewhere secure
