@@ -43,12 +43,20 @@
                             }
 
                             @*<div>
-                                <p>The default users are alice/bob, password: Pass123$</p>
-                            </div>*@
+                <p>The default users are alice/bob, password: Pass123$</p>
+            </div>*@
 
                             <button class="btn btn-primary" name="button" value="login">Login</button>
-                                                       <button class="btn btn-secondary" name="button" value="cancel">Cancel</button>
+                            <button class="btn btn-secondary" name="button" value="cancel">Cancel</button>
                         </form>
+                        <div class="form-group">
+                            <p>
+                                <a id="forgot-password" href="/Identity/Account/ForgotPassword">Forgot your password?</a>
+                            </p>
+                             <p>
+                                <a id="resend-confirmation" href="/Identity/Account/ResendEmailConfirmation">Resend email confirmation</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

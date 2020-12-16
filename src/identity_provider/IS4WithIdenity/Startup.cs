@@ -5,9 +5,11 @@
 using IdentityServer4;
 using IS4WithIdenity.Data.Identity;
 using IS4WithIdenity.Models;
+using IS4WithIdenity.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,10 +33,12 @@ namespace IS4WithIdenity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages(options => { options.RootDirectory = "/Areas/Identity/Pages"; });
             var authIdentityConnectionString = Configuration.GetConnectionString("AuthIdentity");
             var authIDPConnectionString = Configuration.GetConnectionString("AuthIDP");
            SeedIdentityData.EnsureSeedData(authIdentityConnectionString);
             //SeedIDPData.EnsureSeedData(authIDPConnectionString);
+            services.AddScoped<IEmailSender, EmailSender>();
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             services.AddDbContext<AppIdentityDbContext>(options =>
                 {
@@ -128,6 +132,7 @@ namespace IS4WithIdenity
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
     }

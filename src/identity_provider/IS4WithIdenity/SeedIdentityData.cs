@@ -62,8 +62,8 @@ namespace IS4WithIdenity
                             new Claim(JwtClaimTypes.Name, "Alice Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Alice"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                            new Claim(JwtClaimTypes.Role, "admin"),
-                            new Claim(JwtClaimTypes.Role, "abc"),
+                            //new Claim(JwtClaimTypes.Role, "admin"),
+                            //new Claim(JwtClaimTypes.Role, "abc"),
                             new Claim(JwtClaimTypes.PhoneNumber, "+8801671836673")
                         }).Result;
                         if (!result.Succeeded)
@@ -71,14 +71,14 @@ namespace IS4WithIdenity
                             throw new Exception(result.Errors.First().Description);
                         }
 
-                       // result = roleMgr.CreateAsync(new IdentityRole { Name = "admin" }).Result;
-                       // result = roleMgr.CreateAsync(new IdentityRole { Name = "account" }).Result;
+                        result = roleMgr.CreateAsync(new IdentityRole { Name = "admin" }).Result;
+                        result = roleMgr.CreateAsync(new IdentityRole { Name = "account" }).Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);
                         }
-                        //result = userMgr.AddToRoleAsync(alice, "admin").Result;
-                        //result = userMgr.AddToRoleAsync(alice, "account").Result;
+                        result = userMgr.AddToRoleAsync(alice, "admin").Result;
+                        result = userMgr.AddToRoleAsync(alice, "account").Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);
