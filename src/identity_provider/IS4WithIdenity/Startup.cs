@@ -6,6 +6,7 @@ using IdentityServer4;
 using IS4WithIdenity.Data.Identity;
 using IS4WithIdenity.Models;
 using IS4WithIdenity.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -32,11 +34,12 @@ namespace IS4WithIdenity
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
             services.AddControllersWithViews();
             services.AddRazorPages();// (options => { options.RootDirectory = "/Areas/Identity/Pages"; });
             var authIdentityConnectionString = Configuration.GetConnectionString("AuthIdentity");
             var authIDPConnectionString = Configuration.GetConnectionString("AuthIDP");
-           SeedIdentityData.EnsureSeedData(authIdentityConnectionString);
+            SeedIdentityData.EnsureSeedData(authIdentityConnectionString);
             //SeedIDPData.EnsureSeedData(authIDPConnectionString);
             services.AddScoped<IEmailSender, EmailSender>();
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
@@ -101,8 +104,18 @@ namespace IS4WithIdenity
                  .AddAspNetIdentity<ApplicationUser>();
 
             // not recommended for production - you need to store your key material somewhere secure
-           
-               builder.AddDeveloperSigningCredential();
+            services.AddLocalApiAuthentication();
+           // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+           //.AddJwtBearer(options =>
+           //{
+           //    options.Authority = "https://localhost:5001";
+           //    options.TokenValidationParameters = new TokenValidationParameters
+           //    {
+           //        ValidateAudience = false,
+           //        ValidateIssuer = false
+           //    };
+           //});
+            builder.AddDeveloperSigningCredential();
 
             services.AddAuthentication()
                 .AddGoogle(options =>
@@ -128,10 +141,12 @@ namespace IS4WithIdenity
 
             app.UseRouting();
             app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
         }

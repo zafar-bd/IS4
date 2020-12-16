@@ -24,7 +24,8 @@ namespace IS4WithIdenity
         public static IEnumerable<ApiScope> ApiScopes =>
             new[]
             {
-                 new ApiScope("weather.fullaccess")
+                 new ApiScope("weather.fullaccess"),
+                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
 
         public static IEnumerable<ApiResource> Apis =>
@@ -38,7 +39,8 @@ namespace IS4WithIdenity
                 Scopes = new [] {"weather.fullaccess"},
                 ApiSecrets = new [] {new Secret("ScopeSecret".Sha256())},
                 UserClaims = new [] { "role", "email", "location", "phone_number" }
-            }
+            },
+                new ApiResource(IdentityServerConstants.LocalApi.ScopeName    )
                         };
 
         public static IEnumerable<Client> Clients =>
@@ -76,7 +78,8 @@ namespace IS4WithIdenity
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "weather.fullaccess"
+                        "weather.fullaccess",
+                        IdentityServerConstants.LocalApi.ScopeName
                     }
                 },
             };
