@@ -13,7 +13,7 @@
 
         <a href="~/" class="navbar-brand">
             <img src="~/icon.png" class="icon-banner">
-            IdentityServer4
+            Identity Server4
         </a>
 
         @if (!string.IsNullOrWhiteSpace(name))
@@ -21,13 +21,16 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">@name <b class="caret"></b></a>
-                    
+
                     <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/Identity/Account/Manage/PhoneNumber">Phone Number</a>
+                        <a class="dropdown-item" href="/Identity/Account/Manage/ChangePassword">Change Password</a>
+                        <a class="dropdown-item" href="/Identity/Account/Manage/Email">Email</a>
                         <a class="dropdown-item" asp-action="Logout" asp-controller="Account">Logout</a>
                     </div>
-              </li>
+                </li>
             </ul>
         }
-    
+
     </nav>
 </div>

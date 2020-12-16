@@ -33,7 +33,7 @@ namespace IS4WithIdenity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddRazorPages(options => { options.RootDirectory = "/Areas/Identity/Pages"; });
+            services.AddRazorPages();// (options => { options.RootDirectory = "/Areas/Identity/Pages"; });
             var authIdentityConnectionString = Configuration.GetConnectionString("AuthIdentity");
             var authIDPConnectionString = Configuration.GetConnectionString("AuthIDP");
            SeedIdentityData.EnsureSeedData(authIdentityConnectionString);
