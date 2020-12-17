@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +32,28 @@ namespace BlazorWasm
             // Supply HttpClient instances that include access tokens when making requests to the server project
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BlazorApp1.ServerAPI"));
             //builder.Services.AddApiAuthorization();
+
+            //JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+
+            //builder.Services.AddAuthentication(options =>
+            //{
+            //    options.DefaultScheme = "Cookies";
+            //    options.DefaultChallengeScheme = "oidc";
+            //})
+            //.AddCookie("Cookies")
+            //.AddOpenIdConnect("oidc", options =>
+            //{
+            //    options.Authority = "https://localhost:5001";
+
+            //    options.ClientId = "mvc";
+            //    options.ClientSecret = "secret";
+            //    options.ResponseType = "code";
+
+            //    options.Scope.Add("api1");
+
+            //    options.SaveTokens = true;
+            //});
+
 
             await builder.Build().RunAsync();
         }

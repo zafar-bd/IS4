@@ -22,7 +22,8 @@ namespace IS4WithIdenity
             var services = new ServiceCollection();
             services.AddLogging();
             services.AddDbContext<AppIdentityDbContext>(options =>
-               options.UseSqlServer(connectionString));
+               //options.UseSqlServer(connectionString));
+               options.UseInMemoryDatabase("AuthIdentity"));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
@@ -33,7 +34,12 @@ namespace IS4WithIdenity
                 using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     var context = scope.ServiceProvider.GetService<AppIdentityDbContext>();
-                    context.Database.Migrate();
+                    //context.Database.Migrate();
+
+                    if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+                    {
+                        context.Database.Migrate();
+                    }
 
                     var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -56,9 +62,9 @@ namespace IS4WithIdenity
                             new Claim(JwtClaimTypes.Name, "Alice Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Alice"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                            new Claim(JwtClaimTypes.PhoneNumber, "+8801671836673"),
-                            new Claim("role", "admin"),
-                             new Claim("role", "account")
+                            //new Claim(JwtClaimTypes.Role, "admin"),
+                            //new Claim(JwtClaimTypes.Role, "abc"),
+                            new Claim(JwtClaimTypes.PhoneNumber, "+8801671836673")
                         }).Result;
                         if (!result.Succeeded)
                         {

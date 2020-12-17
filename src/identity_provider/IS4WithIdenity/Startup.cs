@@ -3,18 +3,19 @@
 
 
 using IdentityServer4;
-using IdentityServer4.AspNetIdentity;
-using IdentityServer4.Services;
 using IS4WithIdenity.Data.Identity;
 using IS4WithIdenity.Models;
 using IS4WithIdenity.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -33,7 +34,9 @@ namespace IS4WithIdenity
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
             services.AddControllersWithViews();
+            services.AddRazorPages();// (options => { options.RootDirectory = "/Areas/Identity/Pages"; });
             var authIdentityConnectionString = Configuration.GetConnectionString("AuthIdentity");
             var authIDPConnectionString = Configuration.GetConnectionString("AuthIDP");
            // SeedIdentityData.EnsureSeedData(authIdentityConnectionString);
@@ -43,7 +46,9 @@ namespace IS4WithIdenity
             services.AddDbContext<AppIdentityDbContext>(options =>
                 {
                     options.LogTo(tsql => Debug.Write(tsql));
-                    options.UseSqlServer(authIdentityConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+                    options.UseInMemoryDatabase("AuthIdentity");
+                    //options.UseSqlServer(authIdentityConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+
                     //,
                     //         b =>
                     //         {
@@ -96,12 +101,21 @@ namespace IS4WithIdenity
                  //    };
                  //    options.EnableTokenCleanup = true;
                  //})
-                 //.AddProfileService<IdentityWithAdditionalClaimsProfileService>()
                  .AddAspNetIdentity<ApplicationUser>();
 
             // not recommended for production - you need to store your key material somewhere secure
-           
-               builder.AddDeveloperSigningCredential();
+            services.AddLocalApiAuthentication();
+           // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+           //.AddJwtBearer(options =>
+           //{
+           //    options.Authority = "https://localhost:5001";
+           //    options.TokenValidationParameters = new TokenValidationParameters
+           //    {
+           //        ValidateAudience = false,
+           //        ValidateIssuer = false
+           //    };
+           //});
+            builder.AddDeveloperSigningCredential();
 
             services.AddAuthentication()
                 .AddGoogle(options =>
@@ -127,10 +141,13 @@ namespace IS4WithIdenity
 
             app.UseRouting();
             app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }

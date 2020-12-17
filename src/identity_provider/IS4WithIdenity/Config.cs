@@ -11,9 +11,9 @@ namespace IS4WithIdenity
     public static class Config
     {
         public static IEnumerable<IdentityResource> IdentityResources =>
-                 new IdentityResource[]
+                 new[]
                  {
-                new IdentityResources.Profile(),
+                new IdentityResources.OpenId(),
                 new IdentityResources.Phone(),
                 new IdentityResources.Email(),
                 new IdentityResource("roles", new[] { "role" }),
@@ -28,22 +28,23 @@ namespace IS4WithIdenity
                 )};
 
         public static IEnumerable<ApiScope> ApiScopes =>
-            new ApiScope[]
+            new[]
             {
-                 new ApiScope("weather.fullaccess")
+                 new ApiScope("weather.fullaccess"),
+                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
 
         public static IEnumerable<ApiResource> Apis =>
-                        new ApiResource[]
+                        new[]
                         {
                              new ApiResource("weather", "weather API")
-                            {
-                                Scopes = { "weather.fullaccess" }
-                            }
+                {
+                    Scopes = { "weather.fullaccess" }
+                }
                         };
 
         public static IEnumerable<Client> Clients =>
-            new Client[]
+            new[]
             {
                 // m2m client credentials flow client
                 new Client
@@ -78,8 +79,7 @@ namespace IS4WithIdenity
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "weather.fullaccess",
-                        "roles"
+                        "weather.fullaccess"
                     }
                 },
             };

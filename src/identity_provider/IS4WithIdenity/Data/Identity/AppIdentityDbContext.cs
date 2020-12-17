@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using IS4WithIdenity.Models;
-using Microsoft.AspNetCore.Identity;
-using System;
 
 namespace IS4WithIdenity.Data.Identity
 {

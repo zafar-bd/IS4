@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Gateway.BlazorWeb", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IS4WithIdenity", "src\identity_provider\IS4WithIdenity\IS4WithIdenity.csproj", "{035552C9-911A-412B-9E53-17584CF08F7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication2", "src\identity_provider\WebApplication2\WebApplication2.csproj", "{EDEEFC25-612D-4BF0-9A19-7A3F214DC877}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{035552C9-911A-412B-9E53-17584CF08F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{035552C9-911A-412B-9E53-17584CF08F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{035552C9-911A-412B-9E53-17584CF08F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDEEFC25-612D-4BF0-9A19-7A3F214DC877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDEEFC25-612D-4BF0-9A19-7A3F214DC877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDEEFC25-612D-4BF0-9A19-7A3F214DC877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDEEFC25-612D-4BF0-9A19-7A3F214DC877}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 		{FD75DB10-6130-4926-B9D7-640940028AA3} = {FF7D22BD-D1CE-4D90-9781-5371200228E9}
 		{22310C6E-32EA-4B4F-AC10-81ADFBD410D5} = {FD75DB10-6130-4926-B9D7-640940028AA3}
 		{035552C9-911A-412B-9E53-17584CF08F7B} = {8DA66480-C467-4290-9F5D-D80882B8ABA4}
+		{EDEEFC25-612D-4BF0-9A19-7A3F214DC877} = {8DA66480-C467-4290-9F5D-D80882B8ABA4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {32904558-65C9-4772-BA14-F0315750DA06}
