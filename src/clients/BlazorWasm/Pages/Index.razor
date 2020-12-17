@@ -5,11 +5,14 @@
     <Authorized>
         <h2>
             Hello @context.User.Identity.Name,
-            @context.User.FindFirst("role")
-            @context.User.IsInRole("admin")
-            toke: @accessToken.Value
             here's the list of your claims:
         </h2>
+        <div>
+            @context.User.IsInRole("admin")
+            <small>
+                token: @accessToken.Value
+            </small>
+        </div>
         <ul>
 
             <li>@accessToken.Expires.ToLocalTime()</li>

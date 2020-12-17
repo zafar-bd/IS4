@@ -22,7 +22,6 @@ namespace BlazorWasm
             builder.Services.AddOidcAuthentication(options =>
             {   // For more information, see https://aka.ms/blazor-standalone-auth
                 builder.Configuration.Bind("oidc", options.ProviderOptions);
-                //options.UserOptions.RoleClaim = "admin";
             });
 
             builder.Services.AddHttpClient("BlazorApp1.ServerAPI", client =>

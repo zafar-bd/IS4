@@ -16,10 +16,16 @@ namespace IS4WithIdenity
                 new IdentityResources.Profile(),
                 new IdentityResources.Phone(),
                 new IdentityResources.Email(),
-                 new IdentityResource(
-           IdentityServerConstants.StandardScopes.OpenId,
-             new[] { "sub","role","email","location","phone_number" })
-                 };
+                new IdentityResource("roles", new[] { "role" }),
+                new IdentityResource(IdentityServerConstants.StandardScopes.OpenId,
+                new[] {
+                      "sub",
+                      "role",
+                      "email",
+                      "location",
+                      "phone_number"
+                      }
+                )};
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
@@ -31,9 +37,9 @@ namespace IS4WithIdenity
                         new ApiResource[]
                         {
                              new ApiResource("weather", "weather API")
-                {
-                    Scopes = { "weather.fullaccess" }
-                }
+                            {
+                                Scopes = { "weather.fullaccess" }
+                            }
                         };
 
         public static IEnumerable<Client> Clients =>
@@ -54,6 +60,7 @@ namespace IS4WithIdenity
                 // interactive client using code flow + pkce
                 new Client
                 {
+                    RequireConsent=true,
                     ClientId = "blazorWASM",
                     ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
                     RequirePkce = true,
@@ -71,7 +78,8 @@ namespace IS4WithIdenity
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "weather.fullaccess"
+                        "weather.fullaccess",
+                        "roles"
                     }
                 },
             };

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,10 @@ namespace Api.Products
            {
                options.Authority = "https://localhost:5001";
                options.Audience = "weather";
+               options.TokenValidationParameters = new TokenValidationParameters
+               {
+                   RoleClaimType = "role"
+               };
            });
 
             services.AddCors();

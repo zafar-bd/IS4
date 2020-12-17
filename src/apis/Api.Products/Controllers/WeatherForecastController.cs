@@ -29,6 +29,7 @@ namespace Api.Products.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            var c = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using IdentityServer4.EntityFramework.Storage;
 using Serilog;
+using System.Reflection;
 
 namespace IS4WithIdenity
 {
@@ -16,14 +17,16 @@ namespace IS4WithIdenity
     {
         public static void EnsureSeedData(string connectionStrings)
         {
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
             var services = new ServiceCollection();
             services.AddOperationalDbContext(options =>
             {
-                options.ConfigureDbContext = db => db.UseSqlServer(connectionStrings);//, sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
+                options.ConfigureDbContext = db => db.UseSqlServer(connectionStrings, sql => sql.MigrationsAssembly(migrationsAssembly));
             });
             services.AddConfigurationDbContext(options =>
             {
-                options.ConfigureDbContext = db => db.UseSqlServer(connectionStrings);//, sql => sql.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
+                options.ConfigureDbContext = db => db.UseSqlServer(connectionStrings, sql => sql.MigrationsAssembly(migrationsAssembly));
             });
 
             var serviceProvider = services.BuildServiceProvider();

@@ -38,7 +38,7 @@ namespace IS4WithIdenity
             var authIDPConnectionString = Configuration.GetConnectionString("AuthIDP");
            // SeedIdentityData.EnsureSeedData(authIdentityConnectionString);
            // SeedIDPData.EnsureSeedData(authIDPConnectionString);
-            services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
+            services.AddTransient<IProfileService, ProfileService>();
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             services.AddDbContext<AppIdentityDbContext>(options =>
                 {
