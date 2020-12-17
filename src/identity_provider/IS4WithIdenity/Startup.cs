@@ -41,7 +41,6 @@ namespace IS4WithIdenity
             var authIDPConnectionString = Configuration.GetConnectionString("AuthIDP");
            // SeedIdentityData.EnsureSeedData(authIdentityConnectionString);
            // SeedIDPData.EnsureSeedData(authIDPConnectionString);
-            services.AddTransient<IProfileService, ProfileService>();
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             services.AddDbContext<AppIdentityDbContext>(options =>
                 {
@@ -105,29 +104,8 @@ namespace IS4WithIdenity
 
             // not recommended for production - you need to store your key material somewhere secure
             services.AddLocalApiAuthentication();
-           // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-           //.AddJwtBearer(options =>
-           //{
-           //    options.Authority = "https://localhost:5001";
-           //    options.TokenValidationParameters = new TokenValidationParameters
-           //    {
-           //        ValidateAudience = false,
-           //        ValidateIssuer = false
-           //    };
-           //});
             builder.AddDeveloperSigningCredential();
 
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
-                    // register your IdentityServer with Google at https://console.developers.google.com
-                    // enable the Google+ API
-                    // set the redirect URI to https://localhost:5001/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
-                });
         }
 
         public void Configure(IApplicationBuilder app)

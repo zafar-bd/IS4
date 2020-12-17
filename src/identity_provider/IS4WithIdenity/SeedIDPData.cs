@@ -78,6 +78,11 @@ namespace IS4WithIdenity
                 {
                     context.ApiScopes.Add(resource.ToEntity());
                 }
+
+                foreach (var resource in Config.Apis.ToList())
+                {
+                    context.ApiResources.Add(resource.ToEntity());
+                }
                 context.SaveChanges();
             }
             else
